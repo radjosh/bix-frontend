@@ -40,7 +40,7 @@ function App() {
     <div>
       <table>
         <tr><td><strong>Name</strong></td><td><strong>Salary</strong></td><td><strong>Title</strong></td></tr>
-        {result?.map(({name, attributes: { salary, title}}) => (
+        {result?.map(({name, attributes: { salary, title }}) => (
           <tr>
             <td>{name}</td>
             <td>{salary}</td>
