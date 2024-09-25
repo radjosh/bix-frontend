@@ -14,7 +14,7 @@ import React from "react";
 function App() {
   const ENDPOINT = "http://127.0.0.1:8899/test/";
   const [workers, setWorkers] = React.useState([]);
-  const [titles, setTitles] = React.useState([]);
+  const [infoByTitle, setInfoByTitle] = React.useState([]);
 
   React.useEffect(() => {
     const hitApiOnPageLoad = async () => {
@@ -32,12 +32,23 @@ function App() {
 
     hitApiOnPageLoad();
 
-    const s = new Set();
-    workers.forEach(element => {
-      // console.log(element.attributes.title);
-      s.add(element.attributes.title)
+    // const s = new Set();
+    const s = new Map();
+    workers.forEach(worker => {
+      // console.log(worker.attributes.title);
+      if (s.has(worker.attributes.title)) {
+        curr = s.get(worker.attributes.title);
+        total = curr.total;
+        num = curr.num;
+        total += worker.attributes.salary;
+        num += 1;
+        average = total / num;
+        s.set(worker.attributes.title, { total: total, num: num, average: average})
+      } else {
+        s.set(worker.attributes.title, { total: worker.attributes.salary, num: 1, average: worker.attributes.salary})
+      }
     });
-    setTitles(() => s);
+    setInfoByTitle(() => s);
     console.log(s);
 
   }, []);
