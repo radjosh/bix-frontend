@@ -32,24 +32,35 @@ function App() {
 
     hitApiOnPageLoad();
 
+    const s = new Set();
+    workers.forEach(element => {
+      // console.log(element.attributes.title);
+      s.add(element.attributes.title)
+    });
+    setTitles(() => s);
+    console.log(s);
+
   }, []);
 
-  React.useEffect(() => {
-    console.log('Fetched workers:', workers); // Check the structure
-  }, [workers]);
+  // React.useEffect(() => {
+  //   console.log('Fetched workers:', workers); // Check the structure
+  // }, [workers]);
 
-  return (
+ return (
     <div>
       <table>
-        <tr><td><strong>Name</strong></td><td><strong>Salary</strong></td><td><strong>Title</strong></td></tr>
-        {workers?.map(({name, attributes: { salary, title }}, index) => (
-          <tr>
+        <thead></thead>
+        <tbody>
+          <tr><td><strong>Name</strong></td><td><strong>Salary</strong></td><td><strong>Title</strong></td></tr>
+            {workers?.map(({name, attributes: { salary, title }}, index) => (
+          <tr key={index}>
             <td>{name}</td>
             <td>{salary}</td>
             <td><form>{title}</form></td>
             <td>{index}</td>
           </tr>
         ))}
+        </tbody>
       </table>
     </div>
   )
