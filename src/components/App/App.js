@@ -13,7 +13,8 @@ import React from "react";
 
 function App() {
   const ENDPOINT = "http://127.0.0.1:8899/test/";
-  const [result, setResult] = React.useState([]);
+  const [workers, setWorkers] = React.useState([]);
+  const [titles, setTitles] = React.useState([]);
 
   React.useEffect(() => {
     const hitApiOnPageLoad = async () => {
@@ -23,28 +24,30 @@ function App() {
           method: "GET",
         });
         const json = await response.json();
-        setResult(json);
+        setWorkers(json);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     hitApiOnPageLoad();
+
   }, []);
 
   React.useEffect(() => {
-    console.log('Fetched result:', result); // Check the structure
-  }, [result]);
+    console.log('Fetched workers:', workers); // Check the structure
+  }, [workers]);
 
   return (
     <div>
       <table>
         <tr><td><strong>Name</strong></td><td><strong>Salary</strong></td><td><strong>Title</strong></td></tr>
-        {result?.map(({name, attributes: { salary, title }}) => (
+        {workers?.map(({name, attributes: { salary, title }}, index) => (
           <tr>
             <td>{name}</td>
             <td>{salary}</td>
-            <td>{title}</td>
+            <td><form>{title}</form></td>
+            <td>{index}</td>
           </tr>
         ))}
       </table>
