@@ -13,30 +13,39 @@ import React from "react";
 
 function App() {
   const ENDPOINT = "http://127.0.0.1:8899/test/";
-  const [result, setResult] = React.useState('default');
-  const [input, setInput] = React.useState('');
+  const [result, setResult] = React.useState([]);
 
   React.useEffect(() => {
     const hitApiOnPageLoad = async () => {
       const url = new URL(ENDPOINT);
-      const response = await fetch(url, {
-        method: "GET",
-      });
-      console.log(response)
-      const json = await response.json();
-      setResult (() => json);
-    }
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+        });
+        const json = await response.json();
+        setResult(json);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
     hitApiOnPageLoad();
   }, []);
 
+  React.useEffect(() => {
+    console.log('Fetched result:', result); // Check the structure
+  }, [result]);
+
   return (
     <div>
-      <h1>{result}</h1>
-      {/* <ul>
-       {result?.map((item) => {
-        <li key={crypto.randomUUID()}>{item}</li>
-       })}
-      </ul> */}
+      {/* <h1>{result}</h1> */}
+     <ul>
+        {result?.map(({ name, attributes: { salary, title } }) => (
+          <li key={crypto.randomUUID()}>
+            {name} {salary} {title}
+          </li>
+        ))}
+      </ul> 
     </div>
   )
 }
