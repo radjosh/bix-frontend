@@ -1,6 +1,17 @@
 body {
-  background-color: #283618;
+  background-color: #485638;
   text-align: center;
   font-size: xx-large;
   padding: 200px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+ul {
+  text-decoration: none;
+  text-align: left;
+}
+
+td {
+  text-align: left;
+  padding-right: 19px;
 }

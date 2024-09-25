@@ -38,14 +38,16 @@ function App() {
 
   return (
     <div>
-      {/* <h1>{result}</h1> */}
-     <ul>
-        {result?.map(({ name, attributes: { salary, title } }) => (
-          <li key={crypto.randomUUID()}>
-            {name} {salary} {title}
-          </li>
+      <table>
+        <tr><td><strong>Name</strong></td><td><strong>Salary</strong></td><td><strong>Title</strong></td></tr>
+        {result?.map(({name, attributes: { salary, title}}) => (
+          <tr>
+            <td>{name}</td>
+            <td>{salary}</td>
+            <td>{title}</td>
+          </tr>
         ))}
-      </ul> 
+      </table>
     </div>
   )
 }
