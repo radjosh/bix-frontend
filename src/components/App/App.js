@@ -2,13 +2,7 @@ import React from "react";
 
 /**********************************
  * next:
- * load data on page load only
- * i.e. there's no form!
  * 
- * also, come to think of it, why use python at all if
- * the data is essentially small and hard-coded
- * 
- * the juice is in the react
  */
 
 function App() {
@@ -92,6 +86,7 @@ function App() {
                   <option value="CEO">CEO</option>
                   <option value="Grunt">Grunt</option>
                   <option value="Sales">Sales</option>
+                  <option value="Specialist">Specialist</option>
                 </select>
                 </form></td>
               <td>{index}</td>
