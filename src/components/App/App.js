@@ -15,6 +15,7 @@ function App() {
   const ENDPOINT = "http://127.0.0.1:8899/test/";
   const [workers, setWorkers] = React.useState([]);
   const [infoByTitle, setInfoByTitle] = React.useState([]);
+  const [entries, setEntries] = React.useState([]);
 
   React.useEffect(() => {
     const hitApiOnPageLoad = async () => {
@@ -24,7 +25,7 @@ function App() {
           method: "GET",
         });
         const json = await response.json();
-        setWorkers(json);
+        setWorkers(() => json);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -32,10 +33,8 @@ function App() {
 
     hitApiOnPageLoad();
 
-    // const s = new Set();
     const s = new Map();
     workers.forEach(worker => {
-      // console.log(worker.attributes.title);
       if (s.has(worker.attributes.title)) {
         curr = s.get(worker.attributes.title);
         total = curr.total;
@@ -48,10 +47,27 @@ function App() {
         s.set(worker.attributes.title, { total: worker.attributes.salary, num: 1, average: worker.attributes.salary})
       }
     });
+    // const s = new Object;
+    // workers.forEach(worker => {
+    //   if (worker.attributes.title in s) {
+    //     curr = s[worker.attributes.title];
+    //     total = curr.total;
+    //     num = curr.num;
+    //     total += worker.attributes.salary;
+    //     num += 1;
+    //     average = total / num;
+    //     s[worker.attributes.title] = { total: total, num: num, average: average}
+    //   } else {
+    //     s[worker.attributes.title] = { total: worker.attributes.salary, num: 1, average: worker.attributes.salary}
+    //   }
+    // });
     setInfoByTitle(() => s);
-    console.log(s);
+    const entries = Array.from(s.entries());
+    setEntries(() => entries);
 
   }, []);
+
+
 
   // React.useEffect(() => {
   //   console.log('Fetched workers:', workers); // Check the structure
@@ -60,20 +76,30 @@ function App() {
  return (
     <div>
       <table>
-        <thead></thead>
+        <thead><tr><th><strong>Name</strong></th><th><strong>Salary</strong></th><th><strong>Title</strong></th></tr></thead>
         <tbody>
-          <tr><td><strong>Name</strong></td><td><strong>Salary</strong></td><td><strong>Title</strong></td></tr>
-            {workers?.map(({name, attributes: { salary, title }}, index) => (
-          <tr key={index}>
-            <td>{name}</td>
-            <td>{salary}</td>
-            <td><form>{title}</form></td>
-            <td>{index}</td>
-          </tr>
+          {workers?.map(({name, attributes: { salary, title }}, index) => (
+            <tr key={index}>
+              <td>{name}</td>
+              <td>{salary}</td>
+              <td><form>{title}</form></td>
+              <td>{index}</td>
+            </tr>
         ))}
         </tbody>
       </table>
-    </div>
+      <hr />
+      <table>
+        <thead><tr><th><strong>Title</strong></th><th><strong>Average</strong></th></tr></thead>
+        <tbody>
+          {entries?.map(([key, value]) => (
+            <tr key={key}>
+              <td>{key}</td>
+              <td>{value.average}</td>
+            </tr>
+        ))}
+        </tbody>
+      </table>   </div>
   )
 }
 

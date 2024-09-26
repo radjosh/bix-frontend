@@ -11,7 +11,8 @@ ul {
   text-align: left;
 }
 
-td {
+table, td, th {
   text-align: left;
   padding-right: 19px;
+  width: 100%;
 }
