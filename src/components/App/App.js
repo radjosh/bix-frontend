@@ -15,6 +15,18 @@ function App() {
   const ENDPOINT = "http://127.0.0.1:8899/test/";
   const [workers, setWorkers] = React.useState([]);
   const [averages, setAverages] = React.useState([]);
+  const initialTitles = workers.map(worker => worker.attributes.title);
+  const [selectedTitles, setSelectedTitles] = React.useState(initialTitles);
+
+  const handleSelectChange = (index, value) => {
+    const newSelectedTitles = [...selectedTitles];
+    newSelectedTitles[index] = value;
+    setSelectedTitles(newSelectedTitles);
+
+    const updatedWorkers = [...workers];
+    updatedWorkers[index].attributes.title = value;
+    setWorkers(updatedWorkers);
+  };
 
   // load data on page load
   React.useEffect(() => {
@@ -68,7 +80,20 @@ function App() {
             <tr key={index}>
               <td>{name}</td>
               <td>{salary}</td>
-              <td><form>{title}</form></td>
+              <td>
+                <form>
+                <select
+                 value={selectedTitles[index]}
+                 onChange={event => {
+                  handleSelectChange(index, event.target.value)
+                 }}
+                 defaultValue={title}
+                >
+                  <option value="CEO">CEO</option>
+                  <option value="Grunt">Grunt</option>
+                  <option value="Sales">Sales</option>
+                </select>
+                </form></td>
               <td>{index}</td>
             </tr>
         ))}
