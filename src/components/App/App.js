@@ -14,9 +14,9 @@ import React from "react";
 function App() {
   const ENDPOINT = "http://127.0.0.1:8899/test/";
   const [workers, setWorkers] = React.useState([]);
-  const [infoByTitle, setInfoByTitle] = React.useState([]);
-  const [entries, setEntries] = React.useState([]);
+  const [averages, setAverages] = React.useState([]);
 
+  // load data on page load
   React.useEffect(() => {
     const hitApiOnPageLoad = async () => {
       const url = new URL(ENDPOINT);
@@ -33,6 +33,10 @@ function App() {
 
     hitApiOnPageLoad();
 
+  }, []);
+
+  // update averages whenever workers info changes
+  React.useEffect(() => {
     const s = new Map();
     workers.forEach(worker => {
       if (s.has(worker.attributes.title)) {
@@ -47,27 +51,9 @@ function App() {
         s.set(worker.attributes.title, { total: worker.attributes.salary, num: 1, average: worker.attributes.salary})
       }
     });
-    // const s = new Object;
-    // workers.forEach(worker => {
-    //   if (worker.attributes.title in s) {
-    //     curr = s[worker.attributes.title];
-    //     total = curr.total;
-    //     num = curr.num;
-    //     total += worker.attributes.salary;
-    //     num += 1;
-    //     average = total / num;
-    //     s[worker.attributes.title] = { total: total, num: num, average: average}
-    //   } else {
-    //     s[worker.attributes.title] = { total: worker.attributes.salary, num: 1, average: worker.attributes.salary}
-    //   }
-    // });
-    setInfoByTitle(() => s);
-    const entries = Array.from(s.entries());
-    setEntries(() => entries);
-
-  }, []);
-
-
+    const asArray = Array.from(s.entries());
+    setAverages(() => asArray);
+  }, [workers]);
 
   // React.useEffect(() => {
   //   console.log('Fetched workers:', workers); // Check the structure
@@ -92,14 +78,15 @@ function App() {
       <table>
         <thead><tr><th><strong>Title</strong></th><th><strong>Average</strong></th></tr></thead>
         <tbody>
-          {entries?.map(([key, value]) => (
+          {averages?.map(([key, value]) => (
             <tr key={key}>
               <td>{key}</td>
               <td>{value.average}</td>
             </tr>
         ))}
         </tbody>
-      </table>   </div>
+      </table>   
+    </div>
   )
 }
 
