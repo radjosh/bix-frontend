@@ -6,10 +6,10 @@ import React from "react";
  */
 
 function App() {
-  const ENDPOINT = "http://127.0.0.1:8899/test/";
+  const ENDPOINT = "http://127.0.0.1:8899/bix-thing/";
   const [workers, setWorkers] = React.useState([]);
   const [averages, setAverages] = React.useState([]);
-  const initialTitles = workers.map(worker => worker.attributes.title);
+  const initialTitles = workers?.map(worker => worker.attributes.title);
   const [selectedTitles, setSelectedTitles] = React.useState(initialTitles);
 
   const handleSelectChange = (index, value) => {
@@ -89,7 +89,7 @@ function App() {
                   <option value="Specialist">Specialist</option>
                 </select>
                 </form></td>
-              <td>{index}</td>
+              {/* <td>{index}</td> */}
             </tr>
         ))}
         </tbody>
